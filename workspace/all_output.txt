@@ -1,0 +1,138 @@
+The core classes, functions, and methods that will be necessary for the NodeJS service using Express.js are as follows:
+
+1. `app.js` - The entry point file that initializes the Express.js application and defines the endpoints.
+2. `diceController.js` - A controller module that handles the logic for the `/dice` endpoint.
+3. `cardController.js` - A controller module that handles the logic for the `/card` endpoint.
+4. `cardService.js` - A service module that generates a random card value.
+5. `cardDeck.js` - A module that defines the card deck with all the possible card values.
+
+Now, let's proceed with creating the files and writing the code.
+
+**app.js**
+```javascript
+const express = require('express');
+const diceController = require('./diceController');
+const cardController = require('./cardController');
+
+const app = express();
+
+app.get('/dice', diceController.rollDice);
+app.get('/card', cardController.drawCard);
+
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+});
+```
+
+**diceController.js**
+```javascript
+const diceController = {
+  rollDice: (req, res) => {
+    const dice1Value = getRandomNumber(1, 6);
+    const dice2Value = getRandomNumber(1, 6);
+
+    res.json({ dice1_value: dice1Value, dice2_value: dice2Value });
+  },
+};
+
+function getRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+module.exports = diceController;
+```
+
+**cardController.js**
+```javascript
+const cardService = require('./cardService');
+
+const cardController = {
+  drawCard: (req, res) => {
+    const cardValue = cardService.getRandomCard();
+
+    res.json({ card_value: cardValue });
+  },
+};
+
+module.exports = cardController;
+```
+
+**cardService.js**
+```javascript
+const cardDeck = require('./cardDeck');
+
+const cardService = {
+  getRandomCard: () => {
+    const randomIndex = Math.floor(Math.random() * cardDeck.length);
+    return cardDeck[randomIndex];
+  },
+};
+
+module.exports = cardService;
+```
+
+**cardDeck.js**
+```javascript
+const cardDeck = [
+  'HEARTS ACE',
+  'HEARTS 2',
+  'HEARTS 3',
+  'HEARTS 4',
+  'HEARTS 5',
+  'HEARTS 6',
+  'HEARTS 7',
+  'HEARTS 8',
+  'HEARTS 9',
+  'HEARTS 10',
+  'HEARTS JACK',
+  'HEARTS QUEEN',
+  'HEARTS KING',
+  'DIAMONDS ACE',
+  'DIAMONDS 2',
+  'DIAMONDS 3',
+  'DIAMONDS 4',
+  'DIAMONDS 5',
+  'DIAMONDS 6',
+  'DIAMONDS 7',
+  'DIAMONDS 8',
+  'DIAMONDS 9',
+  'DIAMONDS 10',
+  'DIAMONDS JACK',
+  'DIAMONDS QUEEN',
+  'DIAMONDS KING',
+  'CLUBS ACE',
+  'CLUBS 2',
+  'CLUBS 3',
+  'CLUBS 4',
+  'CLUBS 5',
+  'CLUBS 6',
+  'CLUBS 7',
+  'CLUBS 8',
+  'CLUBS 9',
+  'CLUBS 10',
+  'CLUBS JACK',
+  'CLUBS QUEEN',
+  'CLUBS KING',
+  'SPADES ACE',
+  'SPADES 2',
+  'SPADES 3',
+  'SPADES 4',
+  'SPADES 5',
+  'SPADES 6',
+  'SPADES 7',
+  'SPADES 8',
+  'SPADES 9',
+  'SPADES 10',
+  'SPADES JACK',
+  'SPADES QUEEN',
+  'SPADES KING',
+  'JOKER 1',
+  'JOKER 2',
+];
+
+module.exports = cardDeck;
+```
+
+Please note that you need to run `npm init` to create the `package.json` file and install the required dependencies.
+
+This implementation follows the best practices for structuring a Node.js project using Express.js. The code is organized into separate modules for better maintainability and separation of concerns. The `app.js` file serves as the entry point for the application, and the controllers and services handle the logic for the respective endpoints. The `cardDeck.js` module defines the card deck with all the possible card values.

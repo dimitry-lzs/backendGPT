@@ -1,0 +1,2 @@
+NodeJS service using express.js NPM package (library)
+It should have endpoint /dice which returns JSON with pair of random numbers 1 <= dice{1-2}_value <= 6 and endpoint /card which returns JSON with field card in format "HEARTS KING", "SPADES QUEEN", "CLUBS 6".
